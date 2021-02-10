@@ -2,21 +2,30 @@ import {ReactElement} from "react";
 import _Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import $ from "jquery";
+import {SingletonRouter} from "next/router";
+import {formatToGql} from "@nafkhanzam/common-utils";
+import NProgress from "nprogress"; //nprogress module
+import "nprogress/nprogress.css"; //styles of nprogress
 
 const Swal = withReactContent(_Swal);
+
+export {Swal, $};
+
+export const initNProgress = (nextRouter: SingletonRouter) => {
+  nextRouter.events.on("routeChangeStart", () => NProgress.start());
+  nextRouter.events.on("routeChangeComplete", () => NProgress.done());
+  nextRouter.events.on("routeChangeError", () => NProgress.done());
+};
+
+const formatError = (err: unknown) => {
+  const {status: title = "Error!", message: msg} = formatToGql.toError(err);
+  return {title, msg};
+};
 
 export const alerts = {
   error: (err: unknown) => {
     console.error(err);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let msg = (err as any)?.message ?? JSON.stringify(err);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const gqlError = (err as any)?.response?.errors?.[0];
-    let title = "Error!";
-    if (gqlError) {
-      msg = gqlError.message;
-      title = gqlError.status ?? title;
-    }
+    const {title, msg} = formatError(err);
     Swal.fire({
       title,
       text: msg,
