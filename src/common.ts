@@ -4,12 +4,13 @@ import withReactContent from "sweetalert2-react-content";
 import $ from "jquery";
 import {SingletonRouter} from "next/router";
 import {formatToGql} from "@nafkhanzam/common-utils";
+import Link from "next/link";
 import NProgress from "nprogress"; //nprogress module
 import "nprogress/nprogress.css"; //styles of nprogress
 
 const Swal = withReactContent(_Swal);
 
-export {Swal, $};
+export {Swal, $, Link};
 
 export const initNProgress = (nextRouter: SingletonRouter) => {
   nextRouter.events.on("routeChangeStart", () => NProgress.start());
