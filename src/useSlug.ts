@@ -6,8 +6,5 @@ export const useSlug = (slugName: string, router?: NextRouter) => {
     router = router2;
   }
   const slugs = router.query[slugName];
-  if (Array.isArray(slugs)) {
-    return slugs[0];
-  }
   return slugs;
 };
