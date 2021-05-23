@@ -1,6 +1,6 @@
 {
   "name": "@nafkhanzam/react-next-components",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
@@ -21,7 +21,7 @@
     "prepublishOnly": "yarn generate && yarn build",
     "build": "tsc",
     "generate": "ts-node generateExports",
-    "pub": "yarn version --patch && npm pub"
+    "patch": "yarn version --patch"
   },
   "peerDependencies": {
     "next": "^10",
@@ -47,8 +47,8 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "@nafkhanzam/common-utils": "^0.0.40",
-    "@nafkhanzam/react-architecture": "^0.0.104",
+    "@nafkhanzam/common-utils": "^0.0.41",
+    "@nafkhanzam/react-architecture": "^0.0.109",
     "jquery": "^3.6.0",
     "next": "^10.2.0",
     "nprogress": "^0.2.0",
