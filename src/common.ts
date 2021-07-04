@@ -76,4 +76,13 @@ export const alerts = {
       ...opts,
     });
   },
+  comp: (component: ReactElement, opts?: ReactSweetAlertOptions) => {
+    Swal.fire({
+      html: component,
+      padding: 0,
+      background: "transparent",
+      showConfirmButton: false,
+      ...opts,
+    });
+  },
 };
