@@ -24,7 +24,7 @@
     "patch": "yarn version --patch"
   },
   "peerDependencies": {
-    "next": "^10",
+    "next": "^11",
     "react": "^17"
   },
   "devDependencies": {

@@ -82,6 +82,7 @@ export const alerts = {
       padding: 0,
       background: "transparent",
       showConfirmButton: false,
+      width: "auto",
       ...opts,
     });
   },
