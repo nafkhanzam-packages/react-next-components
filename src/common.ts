@@ -19,53 +19,65 @@ export const initNProgress = (nextRouter: SingletonRouter) => {
   nextRouter.events.on("routeChangeError", () => NProgress.done());
 };
 
-const formatError = (err: unknown) => {
-  let title = "Error!";
-  let msg = "Unexpected error.";
+const formatError = (err: unknown): {title: string; msg: string} => {
   const {status, message} = formatToGql.toError(err);
-  if (status) {
-    title = status;
-  }
-  if (err instanceof Error) {
-    msg = message ?? err.message;
-  }
-  if (message) {
-    msg = message;
-  }
-  return {title, msg};
+  return {title: status, msg: message};
 };
+
+const defaultOpts: ReactSweetAlertOptions = {};
 
 export const alerts = {
   error: (err: unknown, opts?: ReactSweetAlertOptions) => {
     console.error(err);
     const {title, msg} = formatError(err);
-    Swal.fire({
+    return Swal.fire({
       title,
       text: msg,
       icon: "error",
+      ...defaultOpts,
       ...opts,
     });
   },
   errorMsg: (title: string, message: string, opts?: ReactSweetAlertOptions) => {
-    Swal.fire({
+    return Swal.fire({
       title,
       text: message,
       icon: "error",
+      ...defaultOpts,
       ...opts,
     });
   },
+  confirm: async (
+    mainOpt: {title: string; message?: string; confirm?: string; deny?: string},
+    opts?: ReactSweetAlertOptions,
+  ) => {
+    const result = await Swal.fire({
+      title: mainOpt.title,
+      text: mainOpt.message,
+      icon: "question",
+      confirmButtonText: mainOpt.confirm,
+      showConfirmButton: mainOpt.confirm !== undefined,
+      denyButtonText: mainOpt.deny,
+      showDenyButton: mainOpt.deny !== undefined,
+      ...defaultOpts,
+      ...opts,
+    });
+    return result.isConfirmed;
+  },
   info: (title: string, message: string, opts?: ReactSweetAlertOptions) => {
-    Swal.fire({
+    return Swal.fire({
       title,
       text: message,
       icon: "info",
+      ...defaultOpts,
       ...opts,
     });
   },
   html: (title: string, component: ReactElement, opts?: ReactSweetAlertOptions) => {
-    Swal.fire({
+    return Swal.fire({
       title,
       html: component,
+      ...defaultOpts,
       ...opts,
     });
   },
@@ -73,17 +85,20 @@ export const alerts = {
     Swal.fire({
       html: component,
       showConfirmButton: false,
+      ...defaultOpts,
       ...opts,
     });
   },
   comp: (component: ReactElement, opts?: ReactSweetAlertOptions) => {
-    Swal.fire({
+    return Swal.fire({
       html: component,
-      padding: 0,
       background: "transparent",
       showConfirmButton: false,
-      width: "auto",
+      ...defaultOpts,
       ...opts,
     });
+  },
+  close: () => {
+    Swal.close();
   },
 };
